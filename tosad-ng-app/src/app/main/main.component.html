@@ -1,0 +1,171 @@
+<div class="container">
+    <h1>Define</h1>
+    <div class="row">
+        <h4 class="col s12">Table data</h4>
+        <div class="input-field col s6">
+            <select [(ngModel)]="table" (change)='tableChange()'>
+                <option *ngFor="let table of tables" [value]="table">{{table}}</option>
+            </select>
+            <label>Table</label>
+        </div>
+        <div class="input-field col s6">
+            <select [(ngModel)]="attribute" (change)='attributeChange()'>
+                <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+            </select>
+            <label>Attribute</label>
+        </div>
+        <h4 class="col s12">Business rule</h4>
+        <div class="input-field col s4">
+            <select [(ngModel)]="category" (change)='categoryChange()'>
+                <option *ngIf="categories.length == 0" value="none" disabled selected>Choose your attribute first</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+            <label>category</label>
+        </div>
+        <div class="input-field col s4">
+            <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
+                <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option>
+                <option *ngFor="let ruletype of businessRuleTypes" [value]="ruletype">{{ruletype}}</option>
+            </select>
+            <label>BusinessRuleType</label>
+        </div>
+        <div class="input-field col s4">
+            <select [(ngModel)]="operator">
+                <option *ngIf="operators.length == 0" value="none" disabled selected>Select a business rule type first</option>
+                <option *ngFor="let operator of operators" [value]="operator">{{operator}}</option>
+            </select>
+            <label>Operator</label>
+        </div>
+        <!-- ONLY SHOWN WHEN YOU SELECTED A BUSINESSRULETYPE -->
+        <div *ngIf="ruletype.length > 0">
+            <!-- Attribute Range rule -->
+            <div *ngIf="ruletype == 'Attribute Range rule'">
+                <div class="input-field col s6">
+                    <input id="firstParam" type="number" class="validate" [(ngModel)]="values[0]">
+                    <label for="firstParam">Minimum value</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="secondParam" type="number" class="validate" [(ngModel)]="values[1]">
+                    <label for="secondParam">Maximum value</label>
+                </div>
+            </div>
+            <!-- Attribute Compare rule -->
+            <div *ngIf="ruletype == 'Attribute Compare rule'">
+                <div class="input-field col s12">
+                    <input id="firstParam" *ngIf="inputType == 'VARCHAR2'" type="text" class="validate" [(ngModel)]="values[0]">
+                    <input id="firstParam" *ngIf="inputType == 'NUMBER'" type="number" class="validate" [(ngModel)]="values[0]">
+                    <label for="firstParam">Compared value</label>
+                </div>
+            </div>
+            <!-- Attribute List rule -->
+            <div *ngIf="ruletype == 'Attribute List rule'">
+                <div class="list-control col s12">
+                    <a class="waves-effect waves-light btn" (click)="addField()" >Add field</a>
+                    <a class="waves-effect waves-light btn" (click)="removeField()" >Remove field</a>
+                </div>
+                <div *ngFor="let i of arrayOne()" class="col s3">
+                    <div class="input-field">
+                        <input id="firstParam{{i}}" *ngIf="inputType == 'VARCHAR2'" type="text" class="validate" [(ngModel)]="values[i]">
+                        <input id="firstParam{{i}}" *ngIf="inputType == 'NUMBER'" type="number" class="validate" [(ngModel)]="values[i]">
+                        <label for="firstParam{{i}}">Value</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Attribute Other rule -->
+            <div *ngIf="ruletype == 'Attribute Other rule'">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Query</label>
+                </div>
+            </div>
+            <!-- Tuple Compare rule -->
+            <div *ngIf="ruletype == 'Tuple Compare rule'" class="input-field col s12">
+                <select [(ngModel)]="values[0]">
+                    <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+                </select>
+                <label>Attribute</label>
+            </div>
+            <!-- Tuple Other rule -->
+            <div *ngIf="ruletype == 'Tuple Other rule'">
+                <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Query</label>
+                </div>
+            </div>
+            <!-- Inter-Entity Compare rule -->
+            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                <select [(ngModel)]="values[0]" (change)="fixedTablesChange()">
+                    <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let table of fixedTables" [value]="table">{{table}}</option>
+                </select>
+                <label>Table</label>
+            </div>
+            <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6" (change)="refresh()">
+                <select [(ngModel)]="values[1]">
+                    <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                    <option *ngFor="let attri of fixedAttributes" [value]="attri">{{attri}}</option>
+                </select>
+                <label>Attribute</label>
+            </div>
+            <div *ngIf="values[1]">
+                <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                    <select [(ngModel)]="values[2]">
+                        <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                        <option *ngFor="let att of attributes" [value]="att">{{att}}</option>
+                    </select>
+                    <label>{{table}} key</label>
+                </div>
+                <div *ngIf="ruletype == 'Inter-Entity Compare rule'" class="input-field col s6">
+                    <select [(ngModel)]="values[3]">
+                        <option *ngIf="fixedAttributes.length == 0" value="none" disabled selected>Choose your table first</option>
+                        <option *ngFor="let att of fixedAttributes" [value]="att">{{att}}</option>
+                    </select>
+                    <label>{{values[0]}} key</label>
+                </div>
+            </div>
+            <!-- Entity Other rule -->
+            <div *ngIf="ruletype == 'Entity Other rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Declare</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Entity Other rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
+                    <label for="textarea2">Constraint</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Entity Other rule'" class="col s12">
+                <p>Don't forget to fill in <span class="green-hi">l_passed := </span> with a true/false constraint after</p>
+            </div>
+            <!-- Modify rule -->
+            <div *ngIf="ruletype == 'Modify rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="values[0]"></textarea>
+                    <label for="textarea1">Declare</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Modify rule'">
+                <div class="input-field col s6">
+                    <textarea id="textarea2" class="materialize-textarea" [(ngModel)]="values[1]"></textarea>
+                    <label for="textarea2">Constraint</label>
+                </div>
+            </div>
+            <div *ngIf="ruletype == 'Modify rule'" class="col s6 offset-s6">
+                <p>Don't forget to fill in <span class="green-hi">l_passed := </span> with a true/false constraint after</p>
+            </div>
+            <!-- End -->
+        </div>
+        <h4 class="col s12">Failure</h4>
+        <div class="input-field col s12">
+            <input id="failureMessageText" type="text" class="validate" [(ngModel)]="failureMessageText">
+            <label for="failureMessageText">Failure message</label>
+        </div>
+        <div class="input-field col s12">
+            <a class="waves-effect green waves-light btn" (click)="sendDefine()">Define</a>
+        </div>
+    </div>
+</div>

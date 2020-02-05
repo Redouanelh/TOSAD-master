@@ -1,0 +1,143 @@
+<div class="container">
+    <h1>Manage</h1>
+    <div class="row">
+        <div class="col s6">
+            <h3>Trigger</h3>
+            <hr>
+            <div class="scrollable">
+                <ul *ngIf="triggers.length > 0; else elseTrigger">
+                    <li *ngFor="let item of triggers; let i = index" class="listItem" [class.active]="selectedIndexTriggers === i" (click)="getRules(item); setIndexTriggers(i)">
+                        {{ item }}
+                        <div class="right">
+                            <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="modalGenerate" (click)="runGenerate(item)">Generate</a>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #elseTrigger><p class="emptyCol">No triggers available</p></ng-template>
+            </div>
+        </div>
+        <div class="col s6">
+            <h3>Rules</h3>
+            <hr>
+            <div class="scrollable">
+                <ul *ngIf="rules.length > 0; else elseRule">
+                    <li *ngFor="let item of rules; let i = index" class="listItem" [class.active]="selectedIndexRules === i" (click)="getProperties(item); setIndexRules(i)">
+                        {{ item }}
+                        <div class="right">
+                            <a class="btn-floating btn-large waves-effect waves-light btn-small green btn modal-trigger" data-target="modalEdit" (click)="runEdit(item)">✎</a>
+                            &nbsp;
+                            <a class="btn-floating btn-large waves-effect waves-light btn-small red btn modal-trigger" data-target="modalDelete" (click)="deleteModal(item)">✕</a>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #elseRule><p class="emptyCol">No rules available</p></ng-template>
+            </div>
+        </div>
+        <!-- <div class="col s4">
+            <h3>Properties</h3>
+            <hr>
+            <div class="scrollable">
+                <ul *ngIf="properties.length > 0; else elseProperty">
+                    <li class="listItem" *ngFor="let item of properties">{{ item }}</li>
+                </ul>
+                <ng-template #elseProperty><p class="emptyCol">No properties available</p></ng-template>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modalGenerate" class="modal">
+    <div class="modal-header">
+        <h4>Generated Code</h4>
+    </div>
+    <div class="modal-content">
+        <div class="scrollable code-snippet" *ngFor="let item of triggerCode">
+            <textarea highlight-js [options]="{}" [lang]="'sql'" [code]="item" id="sqltext"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="right">
+            <a class="modal-close waves-effect waves-light btn-small blue" (click)="runCode()">Run Code</a>
+            &nbsp;
+            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
+        </div>
+    </div>
+</div>
+
+<div id="modalDelete" class="modal">
+    <div class="modal-header">
+        <h4>{{ selectedRule }}</h4>
+    </div>
+    <div class="modal-content">
+        <blockquote>
+            Are you sure about deleting this rule?
+          </blockquote>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small blue" (click)="deleteRule()">Delete Rule</a>
+        &nbsp;
+        <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
+    </div>
+</div>
+
+<div id="modalEdit" class="modal">
+    <div class="modal-header">
+        <h4>{{ selectedRule }}</h4>
+    </div>
+    <div class="modal-content">
+        
+
+        <div class="row">
+            <h4 class="col s12">Table data</h4>
+            <div class="input-field col s6">
+                <select [(ngModel)]="table" (change)='tableChange()'>
+                    <option [value]="table">{{table}}</option>
+                </select>
+                <label>Table</label>
+            </div>
+
+            <div class="input-field col s6">
+                <select [(ngModel)]="attribute" (change)='attributeChange()'>
+                    <!-- <option *ngIf="attributes.length == 0" value="none" disabled selected>Choose your table first</option> -->
+                    <option *ngFor="let attribute of attributes" [value]="attribute">{{attribute}}</option>
+                </select>
+                <label>Atribute</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="category" (change)='categoryChange()'>
+                    <!-- <option *ngIf="categories.length == 0" value="none" disabled selected>Choose your attribute first</option> -->
+                    <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                </select>
+                <label>category</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="ruletype" (change)='businessRuleTypeChange()'>
+                    <!-- <option *ngIf="businessRuleTypes.length == 0" value="none" disabled selected>Select a category first</option> -->
+                    <option *ngFor="let ruletype of businessRuleTypes" [value]="ruletype">{{ruletype}}</option>
+                </select>
+                <label>BusinessRuleType</label>
+            </div>
+
+            <div class="input-field col s4">
+                <select [(ngModel)]="operator">
+                    <!-- <option *ngIf="operators.length == 0" value="none" disabled selected>Select a business rule type first</option> -->
+                    <option *ngFor="let operator of operators" [value]="operator">{{operator}}</option>
+                </select>
+                <label>Operator</label>
+            </div>
+
+        </div>
+
+        
+    </div>
+    <div class="modal-footer">
+        <div class="right">
+            <a class="modal-close waves-effect waves-light btn-small blue" (click)="editRuleDefinition()">Edit Rule Definition</a>
+            &nbsp;
+            <a class="modal-close waves-effect waves-light btn-small blue">Close</a>
+        </div>
+    </div>
+</div>

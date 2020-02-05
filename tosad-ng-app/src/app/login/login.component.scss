@@ -1,0 +1,31 @@
+.login {
+    margin-top: 9em;
+    background-color: rgb(29, 29, 29);
+    width: 100%;
+    padding: 5px 10px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border: 1px solid black;
+    border-bottom: none;
+
+    input, option, h1, span {
+        color: rgb(194, 194, 194) !important;
+    }
+}
+.continue {
+    width: 100%;
+    border-radius: 0px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    box-shadow: none;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.toast {
+    border-left: 3px solid red;
+}
+
+.col {
+    color: #858585
+}

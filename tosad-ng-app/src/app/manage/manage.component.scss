@@ -1,0 +1,114 @@
+h1,h2,h3,h4 {
+    color: white;
+}
+
+.listItem,
+.col > div {
+    color: white;
+}
+
+.scrollable {
+    overflow: auto;
+    height: 500px;
+}
+
+.listItem {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #2e2e2e;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.listItem:hover,
+.active {
+    background-color: #525252;
+}
+
+.right {
+    float: right;
+}
+
+.emptyCol {
+    color: #414141;
+    font-style: italic;
+}
+
+.code-snippet {  
+    height: 100%;
+    font-size: 1em;
+}
+
+.btn-small {
+    height: 25px;
+    line-height: 25px;
+    font-size: 13px;
+    margin-top: -3px;
+}
+
+.btn-floating.btn-small {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    margin-top: -3px;
+}
+
+.modal {
+    margin-top: 50px;
+    background: rgba(0,0,0,0);
+    box-shadow: none;
+}
+
+.modal-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgb(37, 37, 37);
+    border-bottom: none;
+    // 1px solid rgba(0,0,0,0)
+    border: none;
+    border-radius: 6px;
+}
+
+.modal-content {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 110px);
+    background-color: rgb(37, 37, 37);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.modal-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgb(37, 37, 37);
+    border-top: none;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 16px;
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+    // scroll-padding-left: 3px;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #414141;
+    border-left: 3px solid transparent;
+    background-clip: padding-box;
+}

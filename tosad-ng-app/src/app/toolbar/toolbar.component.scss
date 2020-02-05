@@ -1,0 +1,81 @@
+.toolbar {
+    background-color: rgb(65, 65, 65);
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    border-left: 4px solid orange;
+
+    .left {
+        color: rgb(228, 228, 228);
+        float: left;
+
+        h1 {
+            font-size: 16px;
+            margin: 7px;
+            padding: 0;
+        }
+    }
+
+    .middle {
+        width: 75%;
+        text-align: center;
+        display: inline-block;
+        height: 30px;
+        margin: 0;
+        padding: 0;
+
+        a {
+            height: 100%;
+            width: 90px;
+            padding: 6px;
+            display: inline-block;
+            text-decoration: none;
+            color: rgb(226, 225, 225);
+            transition: 0.2s;
+
+            &:hover {
+                background-color: rgba(179, 179, 179, 0.3);
+            }
+        }
+
+        .active {
+            background-color: rgb(46, 46, 46);
+            border-bottom: 2px solid orange;
+
+            &:hover {
+                background-color: rgb(46, 46, 46);
+            }
+        }
+    }
+
+    .right {
+        float: right;
+    
+        button {
+            width: 45px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            transition: 0.1s;
+
+            &:hover {
+                background-color: rgba(179, 179, 179, 0.3);
+            }
+        }
+
+        button.exit:hover {
+            background-color: rgb(232, 17, 35);
+        }
+        
+    }
+}
+
+.size {
+    font-size: 2rem;
+    height: 30px;
+    transition: 0.2s;
+    &:hover {
+        color: rgb(255, 52, 52) !important;
+    }
+}
